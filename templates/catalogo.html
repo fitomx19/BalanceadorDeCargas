@@ -1,0 +1,55 @@
+<!-- templates/catalogo.html -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <title>Catalogo de Películas - Netflix Plus</title>
+        <style>
+            .netflix-header {
+                background-color: #E50914; /* Rojo de Netflix */
+                color: white;
+                padding: 10px;
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+    
+    <div class="netflix-header">
+        Netflix Plus
+    </div>
+
+<div class="container mt-5">
+    <div class="row">
+        {% for pelicula in catalogo %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img src="{{ url_for('static', filename='imagenes_peliculas/' + pelicula.poster) }}" class="card-img-top" alt="Casino">
+
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ pelicula.nombre }}</h5>
+                        <p class="card-text">Género: {{ pelicula.genero }}</p>
+                        <p class="card-text">Año: {{ pelicula.anio }}</p>
+                        <a href="{{ pelicula.ubicacion }}" class="btn btn-danger" target="_blank">Ver Película</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
+
+ 
