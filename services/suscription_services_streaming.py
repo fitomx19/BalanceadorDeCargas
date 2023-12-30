@@ -1,5 +1,7 @@
-from flask import Flask, request, jsonify
- 
+from flask import Flask, request, jsonify, render_template
+from app.repository.repository_streaming import UsuarioRepository
+#from repository.repository_streaming import UsuarioRepository
+
 import json
 class SuscriptionService:
     @staticmethod
@@ -15,15 +17,28 @@ class SuscriptionService:
     
     @staticmethod
     def login():
-        usuario = request.json['usuario']
-        contrasena = request.json['contrasena']
+        print(request.json)
+        usuario = request.json['username']
+        contrasena = request.json['password']
 
         #revisar si el usuario existe en la base de datos
 
-        
+        user = {
+            "usuario": usuario,
+            "contrasena": contrasena
+        }
 
-        return jsonify({'mensaje': 'Login exitoso'})
+        proceso = UsuarioRepository.revisar_usuario_contrasena(user)
+        print("proceso : ",proceso)
+        if((proceso) != None):
+            return jsonify({ 'nombre_usuario' : "adolfo", 'status':200})
+        else:
+            return jsonify({'status': 400}) 
     
+    @staticmethod
+    def loginGet():
+        content = "Inicio de Sesion"
+        return render_template('login.html', dynamic_content=content)
     
     
  

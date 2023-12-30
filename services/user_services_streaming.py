@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
- 
+from app.repository.repository_streaming import UsuarioRepository
+#from repository.repository_streaming import UsuarioRepository
 import json
 class StreamingUserService:
     @staticmethod
@@ -13,7 +14,24 @@ class StreamingUserService:
         fecha_expiracion = request.json['fecha_expiracion']
         cvv = request.json['cvv']
         tipo = request.json['tipo']
-        return jsonify({'mensaje': 'Usuario creado exitosamente'})
+
+
+        user = {
+            "usuario": usuario,
+            "contrasena": contrasena,
+            "nombre": nombre,
+            "apellido": apellido,
+            "correo": correo,
+            "tarjeta": tarjeta,
+            "fecha_expiracion": fecha_expiracion,
+            "cvv" : cvv,
+            "tipo": tipo,
+            "suscripcion": False
+        }
+
+        proceso = UsuarioRepository.guardar_usuario(user)
+
+        return jsonify({'mensaje': proceso})
     
     @staticmethod
     def obtener_usuarios():

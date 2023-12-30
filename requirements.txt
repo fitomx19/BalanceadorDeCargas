@@ -1,2 +1,6 @@
 flask
 gunicorn
+pymongo
+Flask-MongoEngine
+flask_pymongo
+pymongo

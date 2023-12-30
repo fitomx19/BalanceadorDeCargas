@@ -16,6 +16,8 @@ class ContentService:
             {'id': '9', 'nombre': 'El Padrino IX', 'genero': 'Drama', 'anio': '2014' ,'ubicacion' : 'C:/Users/Usuario/Desktop/Proyecto-Streaming/archivos/El Padrino IX.mp4'},
             {'id': '10', 'nombre': 'El Padrino X', 'genero': 'Drama', 'anio': '2018' ,'ubicacion' : 'C:/Users/Usuario/Desktop/Proyecto-Streaming/archivos/El Padrino X.mp4'},
         ]
+        
+        
         return jsonify({'catalogo': catalogo})
     
     

@@ -1,5 +1,8 @@
 from flask import Blueprint
-from controller.controller_streaming import StreamingController
+
+from app.controller.controller_streaming import StreamingController
+#production
+#from controller.controller_streaming import StreamingController
 
 streaming_bp = Blueprint('streaming', __name__)
 
@@ -49,6 +52,10 @@ def suscripcion():
 @streaming_bp.route('/streaming/login', methods=['POST'])
 def login():
     return StreamingController().login()
+
+@streaming_bp.route('/streaming/login', methods=['GET'])
+def loginGet():
+    return StreamingController().logingGET()
 
 #Gestion de Contenidos
 @streaming_bp.route('/streaming/catalogo', methods=['GET'])

@@ -1,0 +1,165 @@
+<!-- templates/dynamic.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>Login and Registration Page</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <div id="loginFormDiv">
+            <h1>Login</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                </div>
+                <button type="button" class="btn btn-primary" onclick="submitForm('login')">Login</button>
+                <button type="button" class="btn btn-secondary" onclick="toggleForm('register')">Switch to Register</button>
+            </form>
+        </div>
+
+        <div id="registerFormDiv" style="display:none;">
+            <h1>Register</h1>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="usuario">Username</label>
+                    <input type="text" class="form-control" id="usuario" placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label for="contrasena">Password</label>
+                    <input type="password" class="form-control" id="contrasena" placeholder="Enter your password">
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" class="form-control" id="apellido" placeholder="Enter your last name">
+                </div>
+                <div class="form-group">
+                    <label for="correo">Correo</label>
+                    <input type="email" class="form-control" id="correo" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="tarjeta">Tarjeta</label>
+                    <input type="text" class="form-control" id="tarjeta" placeholder="Enter your card number">
+                </div>
+                <div class="form-group">
+                    <label for="fecha_expiracion">Fecha de Expiración</label>
+                    <input type="text" class="form-control" id="fecha_expiracion" placeholder="Enter expiration date">
+                </div>
+                <div class="form-group">
+                    <label for="cvv">CVV</label>
+                    <input type="text" class="form-control" id="cvv" placeholder="Enter CVV">
+                </div>
+                <div class="form-group">
+                    <label for="tipo">Tipo</label>
+                    <input type="text" class="form-control" id="tipo" placeholder="Enter user type">
+                </div>
+                <small>VISA, MASTERCARD, AMEX</small>
+                <button type="button" class="btn btn-primary" onclick="submitForm('register')">Register</button>
+                <button type="button" class="btn btn-secondary" onclick="toggleForm('login')">Switch to Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+    function toggleForm(formType) {
+            if (formType === 'register') {
+                $('#loginFormDiv').hide();
+                $('#registerFormDiv').show();
+            } else {
+                $('#registerFormDiv').hide();
+                $('#loginFormDiv').show();
+            }
+        }
+    function submitForm(formType) {
+    var formData = {};
+
+    if (formType === 'login') {
+        formData = {
+            'username': $('#username').val(),
+            'password': $('#password').val()
+        };
+
+        $.ajax({
+        type: 'POST',
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify(formData),
+        url: '/streaming/login',
+        success: function (response) {
+            // Limpiar campos
+            
+                $('#username').val('');
+                $('#password').val('');
+             
+            if(response.status == 200){
+                window.location.href = '/streaming/catalogo';
+            }else{
+                alert('Introduce el usuario y contraseña correctamente')
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+    } else {
+        formData = {
+            'usuario': $('#usuario').val(),
+            'contrasena': $('#contrasena').val(),
+            'nombre': $('#nombre').val(),
+            'apellido': $('#apellido').val(),
+            'correo': $('#correo').val(),
+            'tarjeta': $('#tarjeta').val(),
+            'fecha_expiracion': $('#fecha_expiracion').val(),
+            'cvv': $('#cvv').val(),
+            'tipo': $('#tipo').val()
+        };
+
+        $.ajax({
+        type: 'POST',
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify(formData),
+        url: '/streaming/usuarios',
+        success: function (response) {
+            // Limpiar campos
+           
+                $('#usuario').val('');
+                $('#contrasena').val('');
+                $('#nombre').val('');
+                $('#apellido').val('');
+                $('#correo').val('');
+                $('#tarjeta').val('');
+                $('#fecha_expiracion').val('');
+                $('#cvv').val('');
+                $('#tipo').val('');
+            
+            // Mostrar mensaje de inicio de sesión
+            alert('Registro exitoso, regresa a iniciar sesión');
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+    }
+
+   
+}
+
+     </script>
+</body>
+</html>

@@ -1,9 +1,20 @@
-from services.services_streaming import StreamingService
-from services.user_services_streaming import StreamingUserService
-from services.suscription_services_streaming import SuscriptionService
-from services.contents_services_streaming import ContentService
-from services.payment_services_streaming import PaymentService
-from services.stats_services_streaming import StatsService
+from app.services.services_streaming import StreamingService
+from app.services.user_services_streaming import StreamingUserService
+from app.services.suscription_services_streaming import SuscriptionService
+from app.services.contents_services_streaming import ContentService
+from app.services.payment_services_streaming import PaymentService
+from app.services.stats_services_streaming import StatsService
+
+
+
+#production
+#from services.services_streaming import StreamingService
+#from services.user_services_streaming import StreamingUserService
+#from services.suscription_services_streaming import SuscriptionService
+#from services.contents_services_streaming import ContentService
+#from services.payment_services_streaming import PaymentService
+#from services.stats_services_streaming import StatsService
+
 
 class StreamingController:
     def saludar(self):
@@ -41,6 +52,10 @@ class StreamingController:
     
     def login(self):
         return SuscriptionService.login()
+    
+    def logingGET(self):
+        return SuscriptionService.loginGet()
+        
     
     #Gestion de Contenidos
     def obtener_catalogo(self):
