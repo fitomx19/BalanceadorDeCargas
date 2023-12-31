@@ -1,3 +1,4 @@
+from bson import ObjectId
 from app.database import conectar_base_de_datos
 #from database import conectar_base_de_datos
 class UsuarioRepository():
@@ -19,3 +20,13 @@ class UsuarioRepository():
         except Exception as e:
             print("Error al buscar usuario:", e)
             return "error al insertar"
+        
+class SuscripcionRepository():
+    def actualizar_suscripcion(id_usuario):
+        try:
+            db = conectar_base_de_datos()
+            db.usuarios.update_one({'_id': ObjectId(id_usuario)}, {'$set': {'suscripcion': True}})
+            return "actualizacion exitosa"
+        except Exception as e:
+            print("Error al actualizar:", e)
+            return "error al actualizar"

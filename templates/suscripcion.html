@@ -1,0 +1,93 @@
+<!-- templates/suscripcion.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>Suscripción a Netflix Plus</title>
+    <style>
+        .netflix-header {
+            background-color: #E50914; /* Rojo de Netflix */
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+        }
+
+        .subscription-card {
+            width: 400px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="netflix-header">
+    Netflix Plus
+    <a href="/streaming/logout" class="btn btn-danger float-right">Cerrar Sesión</a>
+</div>
+
+<div class="card-container">
+    <div class="card subscription-card">
+        <div class="card-body">
+            <h5 class="card-title">¡Bienvenido a Netflix Plus!</h5>
+            <h6>{{ id_usuario }}</h6>
+            <p class="card-text">Disfruta de una suscripción premium con beneficios exclusivos:</p>
+            <ul>
+
+                <li>Acceso ilimitado a la biblioteca completa de películas y series</li>
+                <li>Contenido en calidad HD y 4K</li>
+                <li>Visualización en múltiples dispositivos</li>
+                <li>Actualizaciones regulares con nuevos lanzamientos</li>
+            </ul>
+            <p class="card-text">¡Suscríbete ahora para comenzar tu experiencia de streaming mejorada!</p>
+            <input type="hidden" id="idUsuario" value="{{ id_usuario }}">
+            <button type="button" class="btn btn-primary" id="suscribirseBtn">Suscribirse</button>
+            <div id="mensajeSuscripcion" style="margin-top: 10px;"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#suscribirseBtn").click(function () {
+            var idUsuario = $("#idUsuario").val();
+            console.log(idUsuario);
+            $.ajax({
+                type: 'POST',
+                url: '/streaming/suscripcion',
+                data: { id_usuario: idUsuario },
+                success: function (response) {
+                    if (response.suscripcion) {
+                        try {
+                            window.location.href = '/streaming/catalogo';
+                        } catch (error) {
+                            console.error('Error al redirigir:', error);
+                            alert('Error al redirigir a la página de catálogo. Inténtalo de nuevo.');
+                        }
+                    } else {
+                        $('#mensajeSuscripcion').text('Error al suscribirse. Inténtalo de nuevo.');
+                    }
+                },
+                error: function () {
+                    $('#mensajeSuscripcion').text('Error al comunicarse con el servidor. Inténtalo de nuevo.');
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -22,6 +22,7 @@
     
     <div class="netflix-header">
         Netflix Plus
+        <a href="/streaming/logout" class="btn btn-danger float-right">Logout</a>
     </div>
 
 <div class="container mt-5">
@@ -36,7 +37,7 @@
                         <h5 class="card-title">{{ pelicula.nombre }}</h5>
                         <p class="card-text">Género: {{ pelicula.genero }}</p>
                         <p class="card-text">Año: {{ pelicula.anio }}</p>
-                        <a href="{{ pelicula.ubicacion }}" class="btn btn-danger" target="_blank">Ver Película</a>
+                        <a href="/streaming/catalogo/{{ pelicula.ubicacion }}" class="btn btn-danger" target="_blank">Ver Película</a>
                     </div>
                 </div>
             </div>
@@ -50,6 +51,3 @@
 
 </body>
 </html>
-
-
- 

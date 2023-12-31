@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,session
 from flask import render_template
 
 import json
@@ -6,7 +6,7 @@ class ContentService:
     @staticmethod
     def obtener_catalogo():
         catalogo = [
-            {'id': '1', 'nombre': 'El Padrino', 'genero': 'Drama', 'anio': '1972' , 'poster': 'padrino.png', 'ubicacion' : 'C:/Users/Usuario/Desktop/Proyecto-Streaming/archivos/El Padrino.mp4'},
+            {'id': '1', 'nombre': 'El Padrino', 'genero': 'Drama', 'anio': '1972' , 'poster': 'padrino.png', 'ubicacion' : 'padrino.mp4'},
             {'id': '2', 'nombre': 'Batman Begins', 'genero': 'Accion', 'anio': '2005' ,'poster': 'batman.png','ubicacion' : 'C:/Users/Usuario/Desktop/Proyecto-Streaming/archivos/El Padrino II.mp4'},
             {'id': '3', 'nombre': 'Memento', 'genero': 'Drama', 'anio': '2001' ,'poster': 'memento.png','ubicacion' : 'C:/Users/Usuario/Desktop/Proyecto-Streaming/archivos/El Padrino III.mp4'},
             {'id': '4', 'nombre': 'La naranja Mecanica', 'genero': 'Drama', 'anio': '1971' ,'poster': 'naranjamecanica.png','ubicacion' : 'C:/Users/Usuario/Desktop/Proyecto-Streaming/archivos/El Padrino IV.mp4'},
@@ -18,11 +18,18 @@ class ContentService:
              
         ]
         
-        
-        return render_template('catalogo.html', catalogo=catalogo)
+        dato_recuperado = session.get('id_usuario', 'No hay dato almacenado')
+        if(dato_recuperado == 'No hay dato almacenado'):
+            return render_template('login.html')
+        else:
+            return render_template('catalogo.html', catalogo=catalogo, id_usuario = dato_recuperado)
+         
     
     
-    
+    @staticmethod
+    def obtener_contenido(nombre_contenido):
+        return render_template('reproductor.html', nombre_contenido=nombre_contenido)
+
     
 
     

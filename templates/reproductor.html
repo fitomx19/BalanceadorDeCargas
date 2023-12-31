@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <title>Suscripción a Netflix Plus</title>
+        <style>
+            .netflix-header {
+                background-color: #E50914; /* Rojo de Netflix */
+                color: white;
+                padding: 10px;
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+            }
+    
+            .card-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 70vh;
+            }
+    
+            .subscription-card {
+                width: 400px;
+            }
+        </style>
+    </head>
+    <body>
+    
+    <div class="netflix-header">
+        Netflix Plus 
+        <a href="/streaming/logout" class="btn btn-danger float-right">Cerrar Sesión</a>
+    </div>
+<body>
+    <h1>Pelicula: {{ nombre_contenido }}</h1>
+
+    <center>
+        <video width="1080" height="720" controls>
+            <source src="{{ url_for('static', filename='peliculas/' + nombre_contenido) }}" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+        </video>
+    </center>
+
+</body>
+</html>

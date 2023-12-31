@@ -49,6 +49,10 @@ def eliminar_usuario(nombre_usuario):
 def suscripcion():
     return StreamingController().suscripcion()
 
+@streaming_bp.route('/streaming/suscripcion', methods=['GET'])
+def get_suscripcion():
+    return StreamingController().get_suscripcion()
+
 @streaming_bp.route('/streaming/login', methods=['POST'])
 def login():
     return StreamingController().login()
@@ -56,6 +60,10 @@ def login():
 @streaming_bp.route('/streaming/login', methods=['GET'])
 def loginGet():
     return StreamingController().logingGET()
+
+@streaming_bp.route('/streaming/logout', methods=['GET'])
+def logout():
+    return StreamingController().logout()
 
 #Gestion de Contenidos
 @streaming_bp.route('/streaming/catalogo', methods=['GET'])

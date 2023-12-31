@@ -49,12 +49,17 @@ class StreamingController:
     #Suscripción e Inicio de Sesión:
     def suscripcion(self):
         return SuscriptionService.suscripcion()
+    def get_suscripcion(self):
+        return SuscriptionService.get_suscripcion()
     
     def login(self):
         return SuscriptionService.login()
     
     def logingGET(self):
         return SuscriptionService.loginGet()
+    
+    def logout(self):
+        return SuscriptionService.logout()
         
     
     #Gestion de Contenidos

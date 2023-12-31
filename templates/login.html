@@ -109,7 +109,10 @@
              
             if(response.status == 200){
                 window.location.href = '/streaming/catalogo';
-            }else{
+            }else if(response.status == 202){
+                window.location.href = '/streaming/suscripcion';
+            }
+            else{
                 alert('Introduce el usuario y contraseña correctamente')
             }
         },
