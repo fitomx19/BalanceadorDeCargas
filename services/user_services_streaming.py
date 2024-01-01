@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
-from app.repository.repository_streaming import UsuarioRepository
-#from repository.repository_streaming import UsuarioRepository
+#from app.repository.repository_streaming import UsuarioRepository
+from repository.repository_streaming import UsuarioRepository
+
+
 import json
 class StreamingUserService:
     @staticmethod

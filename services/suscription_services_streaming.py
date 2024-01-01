@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template,session
-from app.repository.repository_streaming import UsuarioRepository,SuscripcionRepository
-#from repository.repository_streaming import UsuarioRepository
+#from app.repository.repository_streaming import UsuarioRepository,SuscripcionRepository
+from repository.repository_streaming import UsuarioRepository
 
 import json
 class SuscriptionService:

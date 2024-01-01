@@ -1,8 +1,8 @@
 from flask import Blueprint
 
-from app.controller.controller_streaming import StreamingController
+#from app.controller.controller_streaming import StreamingController
 #production
-#from controller.controller_streaming import StreamingController
+from controller.controller_streaming import StreamingController
 
 streaming_bp = Blueprint('streaming', __name__)
 
@@ -13,6 +13,11 @@ def saludar():
 @streaming_bp.route('/streaming/subir-archivo', methods=['POST'])
 def subir_archivo_al_servidor():
     return StreamingController().subir_archivo_al_servidor()
+
+
+@streaming_bp.route('/streaming/subir-archivo', methods=['GET'])
+def subir_archivo_al_servidor_get():
+    return StreamingController().subir_archivo_al_servidor_get()
 
 @streaming_bp.route('/streaming/files', methods=['GET'])
 def obtener_archivos():

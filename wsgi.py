@@ -1,9 +1,13 @@
 from flask import Flask
-from app.routes.routes_streaming import streaming_bp 
+
 #production
-#from routes.routes_streaming import streaming_bp
-#from database import conectar_base_de_datos 
-from app.database import conectar_base_de_datos 
+from routes.routes_streaming import streaming_bp
+from database import conectar_base_de_datos 
+
+#dev
+#from app.database import conectar_base_de_datos
+#from app.routes.routes_streaming import streaming_bp 
+
 app = Flask(__name__)
 app.secret_key = 'memento_mori'
 

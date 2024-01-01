@@ -1,6 +1,6 @@
 from bson import ObjectId
-from app.database import conectar_base_de_datos
-#from database import conectar_base_de_datos
+#from app.database import conectar_base_de_datos
+from database import conectar_base_de_datos
 class UsuarioRepository():
     def guardar_usuario(data):
         try:
@@ -30,3 +30,14 @@ class SuscripcionRepository():
         except Exception as e:
             print("Error al actualizar:", e)
             return "error al actualizar"
+        
+
+class ContentRepository():
+    def obtener_catalogo():
+        try:
+            db = conectar_base_de_datos()
+            catalogo = db.catalogo.find()
+            return catalogo
+        except Exception as e:
+            print("Error al obtener catalogo:", e)
+            return "error al obtener catalogo"
