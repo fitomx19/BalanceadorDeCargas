@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify,session
 from flask import render_template
-#PROD
+#dev
 #from app.repository.repository_streaming import UsuarioRepository,ContentRepository
+
+#prod
 from repository.repository_streaming import UsuarioRepository,ContentRepository
 import json
 

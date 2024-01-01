@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify, send_file, render_template, session
-#prod
+#dev
 #from app.repository.repository_streaming import UsuarioRepository, ContentRepository, SuscripcionRepository
+
+#prod
 from repository.repository_streaming import UsuarioRepository, ContentRepository, SuscripcionRepository
 import os
 import socket
@@ -22,7 +24,7 @@ class StreamingService:
     def subir_archivo_al_servidor():
         
         print(request.files)
-        if 'archivo' not in request.files:
+        if 'file' not in request.files:
             return jsonify({"error": "No file part"})
         
         archivo = request.files['file']
@@ -44,18 +46,12 @@ class StreamingService:
 
             with open(filename, 'wb') as dest_file:
                 for i in range(total_chunks):
-                    # Simular pausa de 1 segundo entre chunks
-                    #time.sleep(1)
+                     
                     chunk_data = archivo.read(chunk_size)
-                    dest_file.write(chunk_data)
-
-                    # Enviar el progreso a través de sockets
+                    dest_file.write(chunk_data) 
                     progress_percentage = (i + 1) / total_chunks * 100
                     print(progress_percentage)
-                     
-
-            # Guardar en la base de datos el nombre del archivo
-
+       
             return jsonify({'mensaje': 'Archivo subido exitosamente', 'filename': filename})
         else:
             return jsonify({"error": "Invalid file format. Allowed formats: mp3, mp4, txt, png"})

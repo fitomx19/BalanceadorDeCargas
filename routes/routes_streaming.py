@@ -1,7 +1,9 @@
 from flask import Blueprint
 
-#from app.controller.controller_streaming import StreamingController
 #production
+#from app.controller.controller_streaming import StreamingController
+
+#dev
 from controller.controller_streaming import StreamingController
 
 streaming_bp = Blueprint('streaming', __name__)
