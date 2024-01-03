@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,render_template
 #from app.repository.repository_streaming import UsuarioRepository
 from repository.repository_streaming import UsuarioRepository
 
@@ -40,7 +40,7 @@ class StreamingUserService:
         usuarios = [
             {'usuario': 'jose', 'contrasena': '1234', 'nombre': 'Jose', 'apellido': 'Perez', 'correo': 'adolfo@gmail.com', 'tarjeta': '123456789', 'fecha_expiracion': '12/12/2020', 'cvv': '123', 'tipo': 'visa'}
         ]
-        return jsonify({'usuarios': usuarios})
+        return render_template('usuarios.html' , usuarios = usuarios)
     
     @staticmethod
     def obtener_usuario(nombre_usuario):

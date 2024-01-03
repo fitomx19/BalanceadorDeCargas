@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>Suscripción a Netflix Plus</title>
+    <style>
+        .netflix-header {
+            background-color: #E50914; /* Rojo de Netflix */
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        .card {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="netflix-header">
+    Netflix Plus 
+    <a href="/streaming/logout" class="btn btn-danger float-right">Cerrar Sesión</a>
+</div>
+
+<div class="container">
+    <div class="row">
+        
+
+        <!-- Lista de usuarios -->
+        <div class="col-md-12 card">
+            <h2>Lista de Usuarios</h2>
+            <ul id="listaUsuarios"></ul>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Buscar usuario por nombre -->
+        <div class="col-md-6 card">
+            <h2>Buscar Usuario por Nombre</h2>
+            <form id="buscarUsuarioForm">
+                <input type="text" id="nombreUsuario" placeholder="Nombre de Usuario">
+                <button type="button" class="btn btn-danger" onclick="buscarUsuario()">Buscar Usuario</button>
+            </form>
+            <div id="resultadoUsuario"></div>
+        </div>
+
+         <!-- Actualizar usuario por nombre -->
+         <div class="col-md-6 card">
+            <h2>Actualizar Usuario por Nombre</h2>
+            <form id="actualizarUsuarioForm">
+                <!-- Agrega los campos necesarios según tu lógica -->
+                <button type="button" class="btn btn-danger" onclick="actualizarUsuario()">Actualizar Usuario</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+       
+
+        <!-- Eliminar usuario por nombre -->
+        <div class="col-md-6 card">
+            <h2>Eliminar Usuario por Nombre</h2>
+            <form id="eliminarUsuarioForm">
+                <input type="text" id="nombreUsuarioEliminar" placeholder="Nombre de Usuario">
+                <button type="button" class="btn btn-danger" onclick="eliminarUsuario()">Eliminar Usuario</button>
+            </form>
+        </div>
+        <div class="col-md-6 card">
+            <h3>Netlix Plus- Todos los derechos reservados</h3>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Función para crear usuario
+    function crearUsuario() {
+        // Implementa la lógica de la función aquí
+        alert('Implementa la lógica para crear usuario');
+    }
+
+    // Función para obtener usuarios
+    function obtenerUsuarios() {
+        // Implementa la lógica de la función aquí
+        alert('Implementa la lógica para obtener usuarios');
+    }
+
+    // Función para buscar un usuario
+    function buscarUsuario() {
+        // Implementa la lógica de la función aquí
+        alert('Implementa la lógica para buscar un usuario por nombre');
+    }
+
+    // Función para actualizar un usuario
+    function actualizarUsuario() {
+        // Implementa la lógica de la función aquí
+        alert('Implementa la lógica para actualizar usuario');
+    }
+
+    // Función para eliminar un usuario
+    function eliminarUsuario() {
+        // Implementa la lógica de la función aquí
+        alert('Implementa la lógica para eliminar usuario');
+    }
+
+    // Llama a la función para obtener usuarios al cargar la página
+    window.onload = function () {
+        //obtenerUsuarios();
+    };
+</script>
+
+</body>
+</html>
