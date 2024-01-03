@@ -41,3 +41,21 @@ class ContentRepository():
         except Exception as e:
             print("Error al obtener catalogo:", e)
             return "error al obtener catalogo"
+        
+    def obtener_contenido(nombre_contenido):
+        try:
+            db = conectar_base_de_datos()
+            contenido = db.catalogo.find_one({'id': nombre_contenido})
+            return contenido
+        except Exception as e:
+            print("Error al obtener contenido:", e)
+            return "error al obtener contenido"
+        
+    def actualizar_pelicula(id_pelicula, data):
+        try:
+            db = conectar_base_de_datos()
+            db.catalogo.update_one({'id': id_pelicula}, {'$set': data})
+            return "actualizacion exitosa"
+        except Exception as e:
+            print("Error al actualizar:", e)
+            return "error al actualizar"

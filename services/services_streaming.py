@@ -11,8 +11,10 @@ import socket
 
 
 class StreamingService:
-    ALLOWED_EXTENSIONS = {'mp3', 'mp4', 'txt', 'jpg', 'png'}
+    ALLOWED_EXTENSIONS = { 'mp4' }
     UPLOAD_FOLDER = 'archivos'
+    MAX_FILE_SIZE = 100 * 1024 * 1024  # 100 MB
+    MIN_FILE_SIZE = 100 * 1024 * 1024  # 100 MB
 
     @staticmethod
     def obtener_mensaje():
@@ -31,21 +33,57 @@ class StreamingService:
 
             if archivo.filename == '':
                 return jsonify({"error": "No se ha seleccionado ningún archivo"})
+            
+            if archivo.content_length > StreamingService.MAX_FILE_SIZE:
+                return jsonify({"error": "El tamaño del archivo excede el límite permitido (100MB)"})
+            
+            if archivo.content_length < StreamingService.MIN_FILE_SIZE:
+                return jsonify({"error": "El tamaño del archivo es menor a el requerido (1MB)"})
 
             if archivo and StreamingService.allowed_file(archivo.filename):
                 filename = os.path.join(StreamingService.UPLOAD_FOLDER, archivo.filename)
 
-                tipo_subida = request.form.get('tipoSubida')  # Obtener el tipo de subida desde el formulario
+                tipo_subida = request.form.get('tipoSubida')    # Obtener el tipo de subida desde el formulario
+                id_pelicula = request.form.get('fileToModify')  # Obtener el id de la película desde el formulario
+                print(tipo_subida)
                 if tipo_subida == '1':
                     # Subir archivo localmente
                     archivo.save(filename)
+
+                    print(f"Archivo {archivo.filename} subido localmente")
+                    datos_actualizados = {
+                        'id' : id_pelicula,
+                        'ubicacion' : archivo.filename
+                    }
+
+                    # Actualizar ubicación de la película en la base de datos
+                    ContentRepository.actualizar_pelicula(id_pelicula, datos_actualizados)
+                    
                 elif tipo_subida == '2':
                     # Subir archivo a Google Cloud Storage
-                    client = storage.Client()
-                    bucket_name = "nombre_de_tu_bucket"
-                    bucket = client.get_bucket(bucket_name)
-                    blob = bucket.blob(archivo.filename)
-                    blob.upload_from_file(archivo)
+                    try:
+                        client = storage.Client()
+                        bucket_name = "netflix-plus-test-dan"
+                        bucket = client.get_bucket(bucket_name)
+                        blob = bucket.blob(archivo.filename)
+                        blob.upload_from_file(archivo)
+                        
+                        file_url = f"https://storage.googleapis.com/{bucket_name}/{archivo.filename}"
+                        print(f"Archivo {archivo.filename} subido a Google Cloud Storage")
+                        print(f"URL del archivo: {file_url}")
+
+
+                        datos_actualizados = {
+                            'id' : id_pelicula,
+                            'ubicacion_gcp' : file_url
+                        }
+
+                        # Actualizar ubicación de la película en la base de datos
+                        ContentRepository.actualizar_pelicula(id_pelicula, datos_actualizados)
+                        
+                    except Exception as e:
+                        print(f"Error al subir archivo a Google Cloud Storage: {e}")
+                        return jsonify({"error": e})
                 else:
                     return jsonify({"error": "Opción de subida no válida"})
 

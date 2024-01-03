@@ -27,7 +27,11 @@ class ContentService:
     
     @staticmethod
     def obtener_contenido(nombre_contenido):
-        return render_template('reproductor.html', nombre_contenido=nombre_contenido)
+        #obtener informacion del contenido
+        print(nombre_contenido)
+        contenido = ContentRepository.obtener_contenido(nombre_contenido)
+        print(contenido)
+        return render_template('reproductor.html', contenido=contenido)
 
     
 

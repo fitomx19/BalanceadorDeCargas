@@ -55,7 +55,7 @@
             <label for="fileToModify">Selecciona una película a modificar</label>
             <select class="form-control" id="fileToModify" name="fileToModify">
                 {% for video in catalogo %}
-                    <option value="{{ video.nombre }}">{{ video.nombre }}</option>
+                    <option value="{{ video.id }}">{{ video.nombre }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -87,18 +87,31 @@
 <script>
     function uploadFile() {
         var fileInput = document.getElementById('fileInput');
+        var fileToModify = document.getElementById('fileToModify').value;
+        var tipoSubida = document.getElementById('tipoSubida').value;
         var progressBarContainer = document.getElementById('progressBarContainer');
         var progressBar = document.getElementById('progressBar');
         var progressPercentage = document.getElementById('progressPercentage');
 
         var file = fileInput.files[0];
         if (!file) {
-            alert('Please select a file');
+            alert('Por favor, selecciona un archivo.');
+            return;
+        }
+
+        // Validar el tamaño del archivo (entre 1MB y 100MB)
+        var maxSizeInBytes = 100 * 1024 * 1024; // 100 MB
+        var minSizeInBytes = 1 * 1024 * 1024;   // 1 MB
+
+        if (file.size > maxSizeInBytes || file.size < minSizeInBytes) {
+            alert('El tamaño del archivo debe estar entre 1MB y 100MB.');
             return;
         }
 
         var formData = new FormData();
         formData.append('file', file);
+        formData.append('fileToModify', fileToModify);
+        formData.append('tipoSubida', tipoSubida);
 
         var xhr = new XMLHttpRequest();
 
