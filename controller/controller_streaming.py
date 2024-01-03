@@ -33,6 +33,9 @@ class StreamingController:
     def obtener_archivo(self, nombre_archivo):
         return StreamingService.obtener_archivo(nombre_archivo)
     
+    def download(self, filename):
+        return StreamingService.download(filename)
+    
     #Administracion de Usuarios
     def crear_usuario(self):
         return StreamingUserService.crear_usuario()

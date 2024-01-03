@@ -5,3 +5,4 @@ Flask-MongoEngine
 flask_pymongo
 pymongo
 flask-socketio
+google-cloud-storage

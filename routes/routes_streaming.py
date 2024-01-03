@@ -29,6 +29,10 @@ def obtener_archivos():
 def obtener_archivo(nombre_archivo):
     return StreamingController().obtener_archivo(nombre_archivo)
 
+@streaming_bp.route('/download/<filename>', methods=['GET'])
+def download(filename):
+    return StreamingController().download(filename)
+
 #Administracion de Usuarios
 
 @streaming_bp.route('/streaming/usuarios', methods=['POST'])
