@@ -37,7 +37,7 @@ class StreamingService:
             if archivo.content_length > StreamingService.MAX_FILE_SIZE:
                 return jsonify({"error": "El tamaño del archivo excede el límite permitido (100MB)"})
             
-            if archivo.content_length < StreamingService.MIN_FILE_SIZE:
+            if archivo.content_length > StreamingService.MIN_FILE_SIZE:
                 return jsonify({"error": "El tamaño del archivo es menor a el requerido (1MB)"})
 
             if archivo and StreamingService.allowed_file(archivo.filename):
