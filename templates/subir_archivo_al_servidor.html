@@ -43,6 +43,8 @@
 </div>
 
 <div class="container mt-5">
+    <h3>Subir archivos al servidor: Instancia: {{ubicacion}}</h3>
+    
     <!-- Formulario con ID para Resumable.js -->
     <form action="/upload" method="post" enctype="multipart/form-data" id="resumable-form">
         <!-- Input de archivo -->
@@ -75,6 +77,13 @@
             <span id="progressPercentage">0%</span>
         </div>
     </form>
+    <small><b>Problema</b></small>
+    <small>
+        Al ejecutar la aplicación en tres réplicas de Docker, enfrenamos una  dificultad para que todas compartan los archivos subidos. Actualmente, estamos utilizando un volumen local, pero este enfoque no garantiza que las réplicas vean los mismos archivos.
+    </small> 
+    <br>   
+        <small><b>Solución:</b></small>
+        <small>Para lograr que las tres réplicas compartan el mismo volumen y, por lo tanto, tengan acceso a los archivos subidos desde cualquiera de ellas, puedes adoptar una solución de almacenamiento compartido. Dos opciones comunes son utilizar un servicio de almacenamiento en la nube, como Google Cloud Storage, o un sistema de almacenamiento compartido en red, como NFS.</small>
 </div>
 
  
@@ -85,41 +94,59 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 <script>
-    function uploadFile() {
-        var fileInput = document.getElementById('fileInput');
-        var fileToModify = document.getElementById('fileToModify').value;
-        var tipoSubida = document.getElementById('tipoSubida').value;
-        var progressBarContainer = document.getElementById('progressBarContainer');
-        var progressBar = document.getElementById('progressBar');
-        var progressPercentage = document.getElementById('progressPercentage');
+function uploadFile() {
+    var fileInput = document.getElementById('fileInput');
+    var fileToModify = document.getElementById('fileToModify').value;
+    var tipoSubida = document.getElementById('tipoSubida').value;
+    var progressBarContainer = document.getElementById('progressBarContainer');
+    var progressBar = document.getElementById('progressBar');
+    var progressPercentage = document.getElementById('progressPercentage');
 
-        var file = fileInput.files[0];
-        if (!file) {
-            alert('Por favor, selecciona un archivo.');
-            return;
-        }
+    var file = fileInput.files[0];
+    if (!file) {
+        alert('Por favor, selecciona un archivo.');
+        return;
+    }
 
-        // Validar el tamaño del archivo (entre 1MB y 100MB)
-        var maxSizeInBytes = 100 * 1024 * 1024; // 100 MB
-        var minSizeInBytes = 1 * 1024 * 1024;   // 1 MB
+    // Validar el tamaño del archivo (entre 1MB y 100MB)
+    var maxSizeInBytes = 100 * 1024 * 1024; // 100 MB
+    var minSizeInBytes = 1 * 1024 * 1024;   // 1 MB
 
-        if (file.size > maxSizeInBytes || file.size < minSizeInBytes) {
-            alert('El tamaño del archivo debe estar entre 1MB y 100MB.');
-            return;
-        }
+    if (file.size > maxSizeInBytes || file.size < minSizeInBytes) {
+        alert('El tamaño del archivo debe estar entre 1MB y 100MB.');
+        return;
+    }
 
-        var formData = new FormData();
-        formData.append('file', file);
-        formData.append('fileToModify', fileToModify);
-        formData.append('tipoSubida', tipoSubida);
+    var formData = new FormData();
+    formData.append('file', file);
+    formData.append('fileToModify', fileToModify);
+    formData.append('tipoSubida', tipoSubida);
 
-        var xhr = new XMLHttpRequest();
+    var xhr;
+    var totalRequests = (tipoSubida === '1') ? 3 : 1;  // Número total de solicitudes
+    var completedRequests = 0;  // Contador de solicitudes completadas
+
+    function sendRequest() {
+        xhr = new XMLHttpRequest();
 
         xhr.upload.onprogress = function(event) {
             if (event.lengthComputable) {
-                var percentage = (event.loaded / event.total) * 100;
+                var percentage = ((completedRequests * 100) + (event.loaded / event.total) * 100) / totalRequests;
                 progressBar.value = percentage;
                 progressPercentage.innerText = percentage.toFixed(2) + '%';
+            }
+        };
+
+        xhr.onload = function() {
+            completedRequests++;
+
+            if (completedRequests === totalRequests) {
+                // Todas las solicitudes se han completado, mostrar el 100%
+                progressBar.value = 100;
+                progressPercentage.innerText = '100%';
+            } else {
+                // Enviar la siguiente solicitud
+                sendRequest();
             }
         };
 
@@ -128,6 +155,10 @@
 
         progressBarContainer.style.display = 'block';
     }
+
+    // Iniciar las solicitudes
+    sendRequest();
+}
 </script>
 
 </body>

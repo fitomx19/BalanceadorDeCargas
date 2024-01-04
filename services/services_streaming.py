@@ -106,7 +106,8 @@ class StreamingService:
     @staticmethod
     def subir_archivo_al_servidor_get():
         catalogo = ContentRepository.obtener_catalogo()
-        return render_template('subir_archivo_al_servidor.html', catalogo=catalogo)
+        ubicacion = socket.gethostname()
+        return render_template('subir_archivo_al_servidor.html', catalogo=catalogo, ubicacion=ubicacion)
 
     @staticmethod
     def download(filename):
@@ -124,7 +125,10 @@ class StreamingService:
 
         if range_header:
             # Devolver la porción del archivo según el rango
-            return send_file(file_path, mimetype='video/mp4', as_attachment=True, download_name=filename, conditional=True)
+            try:
+                return send_file(file_path, mimetype='video/mp4', as_attachment=True, download_name=filename, conditional=True)
+            except Exception as e:
+                return jsonify({"error": e})
 
         # Si no hay encabezado de rango, simplemente devolver el archivo completo
         return send_file(file_path, mimetype='video/mp4', as_attachment=True, download_name=filename, conditional=True)
