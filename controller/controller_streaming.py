@@ -35,6 +35,7 @@ class StreamingController:
     
     def download(self, filename):
         return StreamingService.download(filename)
+ 
     
     #Administracion de Usuarios
     def crear_usuario(self):
@@ -46,8 +47,8 @@ class StreamingController:
     def obtener_usuario(self, nombre_usuario):
         return StreamingUserService.obtener_usuario(nombre_usuario)
     
-    def actualizar_usuario(self, nombre_usuario):
-        return StreamingUserService.actualizar_usuario(nombre_usuario)
+    def actualizar_usuario(self):
+        return StreamingUserService.actualizar_usuario()
     
     def eliminar_usuario(self, nombre_usuario):
         return StreamingUserService.eliminar_usuario(nombre_usuario)

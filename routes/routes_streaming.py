@@ -32,6 +32,7 @@ def obtener_archivo(nombre_archivo):
 @streaming_bp.route('/download/<filename>', methods=['GET'])
 def download(filename):
     return StreamingController().download(filename)
+ 
 
 #Administracion de Usuarios
 
@@ -47,9 +48,9 @@ def obtener_usuarios():
 def obtener_usuario(nombre_usuario):
     return StreamingController().obtener_usuario(nombre_usuario)
 
-@streaming_bp.route('/streaming/usuarios/<string:nombre_usuario>', methods=['PUT'])
-def actualizar_usuario(nombre_usuario):
-    return StreamingController().actualizar_usuario(nombre_usuario)
+@streaming_bp.route('/streaming/actualizar-usuario', methods=['POST'])
+def actualizar_usuario():
+    return StreamingController().actualizar_usuario()
 
 @streaming_bp.route('/streaming/usuarios/<string:nombre_usuario>', methods=['DELETE'])
 def eliminar_usuario(nombre_usuario):

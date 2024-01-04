@@ -43,85 +43,86 @@
     <div class="row">
         
 
-        <!-- Lista de usuarios -->
+        <div class="col-md-12">
+            <h3>Hola {{usuario.nombre}}</h3>
+            <h4>Actualiza tu información</h4>
+            <div class="card">
+                <label>Usuario</label>
+                <input type="hidden" id="id" name="id" class="form-control" value="{{usuario._id}}">
+                <input type="text" id="nombre" name="nombre" class="form-control" value="{{usuario.usuario}}">
+            <br>
+            <label>Correo</label>
+            <input type="text" id="correo" name="correo" class="form-control" value="{{usuario.correo}}">
+            <br>
+            <hr>
+            <button class="btn btn-danger form-control" onclick="actualizarUsuario()">Actualizar</button>
+            </div>
+
+        </div>
         <div class="col-md-12 card">
             <h2>Lista de Usuarios</h2>
-            <ul id="listaUsuarios"></ul>
+            
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Correo</th>
+                        <th>Suscripcion</th>
+                         
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in usuarios %}
+                        <tr>
+                            <td>{{ u.usuario }}</td>
+                            <td>{{ u.correo }}</td>
+                            <td>{{ u.suscripcion }}</td>                           
+                    {% endfor %}
+                </tbody>
+            </table>
+
         </div>
     </div>
-    <div class="row">
-        <!-- Buscar usuario por nombre -->
-        <div class="col-md-6 card">
-            <h2>Buscar Usuario por Nombre</h2>
-            <form id="buscarUsuarioForm">
-                <input type="text" id="nombreUsuario" placeholder="Nombre de Usuario">
-                <button type="button" class="btn btn-danger" onclick="buscarUsuario()">Buscar Usuario</button>
-            </form>
-            <div id="resultadoUsuario"></div>
-        </div>
-
-         <!-- Actualizar usuario por nombre -->
-         <div class="col-md-6 card">
-            <h2>Actualizar Usuario por Nombre</h2>
-            <form id="actualizarUsuarioForm">
-                <!-- Agrega los campos necesarios según tu lógica -->
-                <button type="button" class="btn btn-danger" onclick="actualizarUsuario()">Actualizar Usuario</button>
-            </form>
-        </div>
-    </div>
 
     <div class="row">
-       
-
-        <!-- Eliminar usuario por nombre -->
-        <div class="col-md-6 card">
-            <h2>Eliminar Usuario por Nombre</h2>
-            <form id="eliminarUsuarioForm">
-                <input type="text" id="nombreUsuarioEliminar" placeholder="Nombre de Usuario">
-                <button type="button" class="btn btn-danger" onclick="eliminarUsuario()">Eliminar Usuario</button>
-            </form>
-        </div>
-        <div class="col-md-6 card">
-            <h3>Netlix Plus- Todos los derechos reservados</h3>
-        </div>
+        
     </div>
 </div>
 
 <script>
-    // Función para crear usuario
-    function crearUsuario() {
-        // Implementa la lógica de la función aquí
-        alert('Implementa la lógica para crear usuario');
-    }
+    
 
-    // Función para obtener usuarios
-    function obtenerUsuarios() {
-        // Implementa la lógica de la función aquí
-        alert('Implementa la lógica para obtener usuarios');
-    }
-
-    // Función para buscar un usuario
-    function buscarUsuario() {
-        // Implementa la lógica de la función aquí
-        alert('Implementa la lógica para buscar un usuario por nombre');
-    }
+  
+   
 
     // Función para actualizar un usuario
     function actualizarUsuario() {
         // Implementa la lógica de la función aquí
-        alert('Implementa la lógica para actualizar usuario');
+        var id = document.getElementById('id').value;
+        var usuario = document.getElementById('nombre').value;
+        var correo = document.getElementById('correo').value;
+        var data = {
+            id: id,
+            usuario: usuario,
+            correo: correo
+        }
+        fetch('/streaming/actualizar-usuario', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }).then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            console.log(data);
+            alert('Usuario actualizado correctamente');
+        });
     }
 
-    // Función para eliminar un usuario
-    function eliminarUsuario() {
-        // Implementa la lógica de la función aquí
-        alert('Implementa la lógica para eliminar usuario');
-    }
+  
 
-    // Llama a la función para obtener usuarios al cargar la página
-    window.onload = function () {
-        //obtenerUsuarios();
-    };
+    
 </script>
 
 </body>

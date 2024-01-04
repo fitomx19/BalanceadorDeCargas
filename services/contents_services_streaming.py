@@ -4,17 +4,14 @@ from flask import render_template
 #from app.repository.repository_streaming import UsuarioRepository,ContentRepository
 
 #prod
-from repository.repository_streaming import UsuarioRepository,ContentRepository
+from repository.repository_streaming import UsuarioRepository,ContentRepository,StatsRepository
 import json
 
 
 class ContentService:
     @staticmethod
     def obtener_catalogo():
-        #catalogo = [
-        #    {'id': '1', 'nombre': 'El Padrino', 'genero': 'Drama', 'anio': '1972' , 'poster': 'padrino.png', 'ubicacion' : 'padrino.mp4'},
-        
-        #buscar en la base de datos los archivos
+         
         catalogo = ContentRepository.obtener_catalogo()
 
         dato_recuperado = session.get('id_usuario', 'No hay dato almacenado')
@@ -30,6 +27,10 @@ class ContentService:
         #obtener informacion del contenido
         print(nombre_contenido)
         contenido = ContentRepository.obtener_contenido(nombre_contenido)
+
+        #Aumentar en 1 el contador de visitas
+        StatsRepository.aumentar_visitas(nombre_contenido)
+
         print(contenido)
         return render_template('reproductor.html', contenido=contenido)
 

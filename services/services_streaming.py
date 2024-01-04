@@ -5,7 +5,7 @@ from google.cloud import storage
 #from app.repository.repository_streaming import UsuarioRepository, ContentRepository, SuscripcionRepository
 
 #prod
-from repository.repository_streaming import UsuarioRepository, ContentRepository, SuscripcionRepository
+from repository.repository_streaming import UsuarioRepository, ContentRepository, SuscripcionRepository, StatsRepository
 import os
 import socket
 
@@ -30,19 +30,14 @@ class StreamingService:
                 return jsonify({"error": "No se ha enviado ningún archivo"})
 
             archivo = request.files['file']
-
             if archivo.filename == '':
                 return jsonify({"error": "No se ha seleccionado ningún archivo"})
-            
             if archivo.content_length > StreamingService.MAX_FILE_SIZE:
                 return jsonify({"error": "El tamaño del archivo excede el límite permitido (100MB)"})
-            
             if archivo.content_length > StreamingService.MIN_FILE_SIZE:
                 return jsonify({"error": "El tamaño del archivo es menor a el requerido (1MB)"})
-
             if archivo and StreamingService.allowed_file(archivo.filename):
                 filename = os.path.join(StreamingService.UPLOAD_FOLDER, archivo.filename)
-
                 tipo_subida = request.form.get('tipoSubida')    # Obtener el tipo de subida desde el formulario
                 id_pelicula = request.form.get('fileToModify')  # Obtener el id de la película desde el formulario
                 print(tipo_subida)
@@ -55,10 +50,8 @@ class StreamingService:
                         'id' : id_pelicula,
                         'ubicacion' : archivo.filename
                     }
-
                     # Actualizar ubicación de la película en la base de datos
                     ContentRepository.actualizar_pelicula(id_pelicula, datos_actualizados)
-                    
                 elif tipo_subida == '2':
                     # Subir archivo a Google Cloud Storage
                     try:
@@ -90,7 +83,7 @@ class StreamingService:
                 file_to_modify = request.form.get('fileToModify')
                 print(f"Nombre de la película: {file_to_modify}")
 
-                return jsonify({'mensaje': 'Archivo subido exitosamente', 'filename': filename})
+                return jsonify({'mensaje': 'Archivo subido exitosamente', 'filename': filename , })
             else:
                 return jsonify({"error": "Formato de archivo no válido. Formatos permitidos: mp3, mp4, txt, png"})
 
@@ -113,16 +106,21 @@ class StreamingService:
     @staticmethod
     def subir_archivo_al_servidor_get():
         catalogo = ContentRepository.obtener_catalogo()
-
         return render_template('subir_archivo_al_servidor.html', catalogo=catalogo)
 
- 
     @staticmethod
     def download(filename):
-        file_path = os.path.join('static/peliculas/', filename)
+        file_path = os.path.join('archivos/', filename)
 
         # Verificar si hay un encabezado de rango en la solicitud
         range_header = request.headers.get('Range', None)
+
+        #Buscar el archivo en la base de datos basado en el nombre de contenido
+        print("🐱 filename", filename)
+        contenido = ContentRepository.obtener_contenido_nombre(filename)
+        print("🐱 contenido", contenido)
+        #Añadir valor a la estadistica de descargas
+        StatsRepository.aumentar_descargas(contenido['id'])
 
         if range_header:
             # Devolver la porción del archivo según el rango
@@ -130,3 +128,5 @@ class StreamingService:
 
         # Si no hay encabezado de rango, simplemente devolver el archivo completo
         return send_file(file_path, mimetype='video/mp4', as_attachment=True, download_name=filename, conditional=True)
+
+ 

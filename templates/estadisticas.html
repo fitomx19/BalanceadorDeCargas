@@ -1,0 +1,50 @@
+<!-- templates/catalogo.html -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <title>Catalogo de Películas - Netflix Plus</title>
+        <style>
+            .netflix-header {
+                background-color: #E50914; /* Rojo de Netflix */
+                color: white;
+                padding: 10px;
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+    
+    <div class="netflix-header">
+        Netflix Plus
+        <a href="/streaming/logout" class="btn btn-danger float-right">Logout</a>
+        <a href="/streaming/usuarios" class="btn btn-danger float-right">Administrar Usuarios</a>
+        <a href="/streaming/subir-archivo" class="btn btn-danger float-right">Administrar Peliculas</a>
+        <a href="/streaming/estadisticas" class="btn btn-danger float-right">Estadisticas</a>
+    </div>
+
+<div class="container mt-5">
+    <div class="row">
+        {% for stats in estadisticas %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ stats.nombre }}</h5>
+                        <p class="card-text">Genero: {{ stats.genero }}</p>
+                        <p class="card-text">Año: {{ stats.anio }}</p>
+                        <p class="card-text">Descargas totales: {{stats.descargas}}</p>
+                        <p class="card-text">Visitas: {{stats.visitas}}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>

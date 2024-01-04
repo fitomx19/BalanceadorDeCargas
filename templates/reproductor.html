@@ -49,12 +49,16 @@
             </video>
              
                 <center>
-                    <a href="/download/padrino.mp4" class="btn btn-danger form-control">Descargar -></a>
+                    <a href="/download/{{contenido.ubicacion}}" class="btn btn-danger form-control">Descargar Servidor Local-></a>
+                </center>
+                <br>
+                <center>
+                    <a href="/download-cloud/{{contenido.ubicacion_gcp}}" class="btn btn-danger form-control">Descargar Servidor Cloud-></a>
                 </center>
             </div>
         </center>
     </div>
-    
+
     <script>
         function selectServer(server) {
             var videoSource = server === 'local' ? '/streaming/files/{{contenido.ubicacion}}' : '{{ contenido.ubicacion_gcp }}';
